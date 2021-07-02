@@ -66,5 +66,5 @@ This game was made with love to Newgrounds and its community. Extra love to Tom 
 
 ### VS PGT
 - [mikumino](https://twitter.com/mikuminou) - Programming maybe and also charting
-- [awipan](https://twitter.com/awipanart) - Art and also awesome
+- [awipan](https://twitter.com/awipanart) - Art and music and also awesome
 - [PirateGameThing](https://www.youtube.com/channel/UCVUpmjsqJiLoN9IWR_K3Hfg) - The Man
