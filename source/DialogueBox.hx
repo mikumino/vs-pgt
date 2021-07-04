@@ -1,3 +1,5 @@
+// this file is a fucking mess because i kept messing with shit since the dialogue wasnt working but it was all cus of a rly stupid
+// mistake in PlayState.hx so PLEASE dont actually look here cus this shits DUMB
 package;
 
 import flixel.FlxG;
@@ -46,7 +48,7 @@ class DialogueBox extends FlxSpriteGroup
 			case 'thorns':
 				FlxG.sound.playMusic(Paths.music('LunchboxScary'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
-         case 'pgt':
+			case 'pgt' | 'gorilla' | 'gear':
 				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
@@ -64,46 +66,52 @@ class DialogueBox extends FlxSpriteGroup
 		}, 5);
 
 		box = new FlxSprite(-20, 45);
-		
+
 		var hasDialog = false;
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-         case 'pgt', 'gorilla', 'gear':
+			case 'pgt' | 'gorilla' | 'gear':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('speech_bubble_talking');
 				box.animation.addByPrefix('normalOpen', 'Speech Bubble Normal Open', 24, false);
 				box.animation.addByIndices('normal', 'speech bubble normal', [4], "", 24);
-            box.width = 200;
-            box.height = 200;
-            box.x = -100;
-            box.y = 375;
+				box.width = 200;
+				box.height = 200;
+				box.x = -100;
+				box.y = 375;
 		}
 
 		this.dialogueList = dialogueList;
-		
+
 		if (!hasDialog)
+		{
+			trace("gsddkjfklsdjflsdk");
 			return;
+		}
 
-      if (PlayState.SONG.song.toLowerCase() == 'pgt' || PlayState.SONG.song.toLowerCase() == 'gorilla' || PlayState.SONG.song.toLowerCase() == 'gear')
-      {
-         portraitLeft = new FlxSprite(-20, 40);
-         portraitLeft.frames = Paths.getSparrowAtlas('weeb/pgtPortrait');
-         portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
-         portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
-         portraitLeft.updateHitbox();
-         portraitLeft.scrollFactor.set();
-         add(portraitLeft);
-         portraitLeft.visible = false;
+		if (PlayState.SONG.song.toLowerCase() == 'pgt'
+			|| PlayState.SONG.song.toLowerCase() == 'gorilla'
+			|| PlayState.SONG.song.toLowerCase() == 'gear')
+		{
+			trace("HELLO");
+			portraitLeft = new FlxSprite(-20, 40);
+			portraitLeft.frames = Paths.getSparrowAtlas('weeb/pgtPortrait');
+			portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
+			portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
+			portraitLeft.updateHitbox();
+			portraitLeft.scrollFactor.set();
+			add(portraitLeft);
+			portraitLeft.visible = false;
 
-         portraitRight = new FlxSprite(0, 40);
-         portraitRight.frames = Paths.getSparrowAtlas('weeb/newBFPortrait');
-         portraitRight.animation.addByPrefix('enter', 'Boyfriend portrait enter', 24, false);
-         portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));
-         portraitRight.updateHitbox();
-         portraitRight.scrollFactor.set();
-         add(portraitRight);
-         portraitRight.visible = false;
-      }
+			portraitRight = new FlxSprite(0, 40);
+			portraitRight.frames = Paths.getSparrowAtlas('weeb/newBFPortrait');
+			portraitRight.animation.addByPrefix('enter', 'Boyfriend portrait enter', 24, false);
+			portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));
+			portraitRight.updateHitbox();
+			portraitRight.scrollFactor.set();
+			add(portraitRight);
+			portraitRight.visible = false;
+		}
 
 		box.animation.play('normalOpen');
 		box.setGraphicSize(Std.int(box.width * PlayState.daPixelZoom * 0.9));
@@ -115,7 +123,6 @@ class DialogueBox extends FlxSpriteGroup
 
 		handSelect = new FlxSprite(FlxG.width * 0.9, FlxG.height * 0.9).loadGraphic(Paths.image('weeb/pixelUI/hand_textbox'));
 		add(handSelect);
-
 
 		if (!talkingRight)
 		{
@@ -144,7 +151,7 @@ class DialogueBox extends FlxSpriteGroup
 	override function update(elapsed:Float)
 	{
 		// HARD CODING CUZ IM STUPDI
-      // its okay im stu[pid too
+		// its okay im stu[pid too
 		if (PlayState.SONG.song.toLowerCase() == 'roses')
 			portraitLeft.visible = false;
 		if (PlayState.SONG.song.toLowerCase() == 'thorns')
@@ -171,10 +178,10 @@ class DialogueBox extends FlxSpriteGroup
 			dialogueStarted = true;
 		}
 
-		if (FlxG.keys.justPressed.ANY  && dialogueStarted == true)
+		if (FlxG.keys.justPressed.ANY && dialogueStarted == true)
 		{
 			remove(dialogue);
-				
+
 			FlxG.sound.play(Paths.sound('clickText'), 0.8);
 
 			if (dialogueList[1] == null && dialogueList[0] != null)
@@ -183,7 +190,9 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					isEnding = true;
 
-					if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns' || PlayState.SONG.song.toLowerCase() == 'pgt')
+					if (PlayState.SONG.song.toLowerCase() == 'gorilla'
+						|| PlayState.SONG.song.toLowerCase() == 'gear'
+						|| PlayState.SONG.song.toLowerCase() == 'pgt')
 						FlxG.sound.music.fadeOut(2.2, 0);
 
 					new FlxTimer().start(0.2, function(tmr:FlxTimer)
@@ -209,7 +218,7 @@ class DialogueBox extends FlxSpriteGroup
 				startDialogue();
 			}
 		}
-		
+
 		super.update(elapsed);
 	}
 
