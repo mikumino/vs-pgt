@@ -365,7 +365,6 @@ class PlayState extends MusicBeatState
 			case 'pgt':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('pgt/dialog'));
 			case 'gorilla':
-				trace("dialog is real");
 				dialogue = CoolUtil.coolTextFile(Paths.txt('gorilla/gorillaDialog'));
 			case 'gear':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('gear/dialog'));
@@ -2631,7 +2630,7 @@ class PlayState extends MusicBeatState
 
 				storyPlaylist.remove(storyPlaylist[0]);
 
-				if (storyPlaylist.length <= 0)
+				if (storyPlaylist.length <= 0) // look at this code mikumino
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
@@ -2673,7 +2672,7 @@ class PlayState extends MusicBeatState
 					trace('LOADING NEXT SONG');
 					trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
 
-					if (SONG.song.toLowerCase() == 'eggnog')
+					if (SONG.song.toLowerCase() == 'eggnog') // try something like this for te mod
 					{
 						var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
 							-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);

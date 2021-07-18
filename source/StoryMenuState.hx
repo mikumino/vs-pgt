@@ -13,34 +13,28 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 
+using StringTools;
+
 #if windows
 import Discord.DiscordClient;
 #end
-
-using StringTools;
 
 class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
 
 	var weekData:Array<Dynamic> = [
-      // begone
-      ['Marble'],
-      ['PGT', 'Gorilla', 'Gear']
+		// begone
+		['Marble'],
+		['PGT', 'Gorilla', 'Gear']
 	];
 	var curDifficulty:Int = 1;
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true];
 
-	var weekCharacters:Array<Dynamic> = [
-      ['', 'bf', 'gf'],
-      ['pgt', 'bf', 'gf']
-	];
+	var weekCharacters:Array<Dynamic> = [['', 'bf', 'gf'], ['pgt', 'bf', 'gf']];
 
-	var weekNames:Array<String> = [
-      "",
-      "PirateGameThing vs Cwasaunt Bruh Girl Aesthetic"
-	];
+	var weekNames:Array<String> = ["", "PirateGameThing vs Cwasaunt Bruh Girl Aesthetic"];
 
 	var txtWeekTitle:FlxText;
 
@@ -283,7 +277,8 @@ class StoryMenuState extends MusicBeatState
 
 			PlayState.storyDifficulty = curDifficulty;
 
-			PlayState.SONG = Song.loadFromJson(StringTools.replace(PlayState.storyPlaylist[0]," ", "-").toLowerCase() + diffic, StringTools.replace(PlayState.storyPlaylist[0]," ", "-").toLowerCase());
+			PlayState.SONG = Song.loadFromJson(StringTools.replace(PlayState.storyPlaylist[0], " ", "-").toLowerCase() + diffic,
+				StringTools.replace(PlayState.storyPlaylist[0], " ", "-").toLowerCase());
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
