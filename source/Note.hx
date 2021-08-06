@@ -1,17 +1,18 @@
 package;
 
-import flixel.addons.effects.FlxSkewedSprite;
+import PlayState;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.effects.FlxSkewedSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+
+using StringTools;
+
 #if polymod
 import polymod.format.ParseRules.TargetSignatureElement;
 #end
-import PlayState;
-
-using StringTools;
 
 class Note extends FlxSprite
 {
@@ -26,6 +27,7 @@ class Note extends FlxSprite
 	public var modifiedByLua:Bool = false;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var noteType:Int = 0;
 
 	public var noteScore:Float = 1;
 
@@ -37,13 +39,14 @@ class Note extends FlxSprite
 
 	public var rating:String = "shit";
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?noteType:Int = 0)
 	{
 		super();
 
 		if (prevNote == null)
 			prevNote = this;
 
+		this.noteType = noteType;
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 
@@ -52,7 +55,7 @@ class Note extends FlxSprite
 		y -= 2000;
 		this.strumTime = strumTime;
 
-		if (this.strumTime < 0 )
+		if (this.strumTime < 0)
 			this.strumTime = 0;
 
 		this.noteData = noteData;
@@ -62,7 +65,7 @@ class Note extends FlxSprite
 		switch (PlayState.SONG.noteStyle)
 		{
 			case 'pixel':
-				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels','week6'), true, 17, 17);
+				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels', 'week6'), true, 17, 17);
 
 				animation.add('greenScroll', [6]);
 				animation.add('redScroll', [7]);
@@ -71,7 +74,7 @@ class Note extends FlxSprite
 
 				if (isSustainNote)
 				{
-					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds','week6'), true, 7, 6);
+					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds', 'week6'), true, 7, 6);
 
 					animation.add('purpleholdend', [4]);
 					animation.add('greenholdend', [6]);
@@ -130,7 +133,7 @@ class Note extends FlxSprite
 		// we make sure its downscroll and its a SUSTAIN NOTE (aka a trail, not a note)
 		// and flip it so it doesn't look weird.
 		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
-		if (FlxG.save.data.downscroll && sustainNote) 
+		if (FlxG.save.data.downscroll && sustainNote)
 			flipY = true;
 
 		if (isSustainNote && prevNote != null)
@@ -173,8 +176,7 @@ class Note extends FlxSprite
 						prevNote.animation.play('redhold');
 				}
 
-
-				if(FlxG.save.data.scrollSpeed != 1)
+				if (FlxG.save.data.scrollSpeed != 1)
 					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * FlxG.save.data.scrollSpeed;
 				else
 					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;

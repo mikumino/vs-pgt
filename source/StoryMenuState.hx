@@ -26,7 +26,7 @@ class StoryMenuState extends MusicBeatState
 	var weekData:Array<Dynamic> = [
 		// begone
 		['Marble'],
-		['PGT', 'Gorilla', 'Gear']
+		['PGT', 'Gorilla', 'Gear', 'Rush']
 	];
 	var curDifficulty:Int = 1;
 
@@ -364,8 +364,10 @@ class StoryMenuState extends MusicBeatState
 		var stringThing:Array<String> = weekData[curWeek];
 
 		for (i in stringThing)
-			txtTracklist.text += "\n" + i;
-
+		{
+			if (i != 'Rush') // im sorry, i couldnt figure out a different way for rush to not show in the tracklist
+				txtTracklist.text += "\n" + i;
+		}
 		txtTracklist.text = txtTracklist.text.toUpperCase();
 
 		txtTracklist.screenCenter(X);

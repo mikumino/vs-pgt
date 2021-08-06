@@ -307,7 +307,44 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+			case 'aurum':
+				var tex = Paths.getSparrowAtlas('characters/AurumRush_Assets', 'shared');
+				frames = tex;
 
+				trace(tex.frames.length);
+
+				animation.addByPrefix('idle', 'AURUM idle dance', 24, false);
+				animation.addByPrefix('singUP', 'AURUM NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'AURUM NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'AURUM NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singDOWN', 'AURUM NOTE DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'AURUM NOTE UP MISS', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'AURUM NOTE LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'AURUM NOTE RIGHT MISS', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'AURUM NOTE DOWN MISS', 24, false);
+				animation.addByPrefix('ugh', 'AURUM NO!!', 12, false);
+
+				animation.addByPrefix('firstDeath', "AURUM dies", 24, false);
+				animation.addByPrefix('deathLoop', "AURUM Dead Loop", 24, true);
+				animation.addByPrefix('deathConfirm', "AURUM Dead confirm", 24, false);
+
+				addOffset('idle', -5, 1);
+				addOffset('singUP', -23, 23);
+				addOffset('singRIGHT', 0, -7);
+				addOffset('singLEFT', -15, -6);
+				addOffset('singDOWN', 27, -57);
+				addOffset('singUPmiss', -22, 24);
+				addOffset('singRIGHTmiss', -24, 10);
+				addOffset('singLEFTmiss', 3, 6);
+				addOffset('singDOWNmiss', 9, -40);
+				addOffset('ugh', -4, 14);
+				addOffset('firstDeath', 37, 22);
+				addOffset('deathLoop', 37, 22);
+				addOffset('deathConfirm', 37, 41);
+
+				playAnim('idle');
+
+				flipX = true;
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('characters/bfChristmas');
 				frames = tex;
@@ -499,7 +536,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-            case 'pgt':
+			case 'pgt':
 				tex = Paths.getSparrowAtlas('characters/PGT_FNF_assetss');
 				frames = tex;
 				animation.addByPrefix('idle', "Pico Idle Dance", 24);
@@ -538,9 +575,8 @@ class Character extends FlxSprite
 
 				flipX = true;
 		}
-      
-		dance();
 
+		dance();
 
 		if (isPlayer)
 		{

@@ -1,5 +1,6 @@
 package;
 
+import FreeplayState.SongMetadata;
 import Section.SwagSection;
 import Song.SwagSong;
 import WiggleEffect.WiggleEffectType;
@@ -129,6 +130,8 @@ class PlayState extends MusicBeatState
 
 	public var health:Float = 1; // making public because sethealth doesnt work without it
 
+	public var enemyHealth:Float = 1;
+
 	private var combo:Int = 0;
 
 	public static var misses:Int = 0;
@@ -142,6 +145,8 @@ class PlayState extends MusicBeatState
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
+	private var enemyBarBG:FlxSprite;
+	private var enemyBar:FlxBar;
 	private var songPositionBar:Float = 0;
 
 	private var generatedMusic:Bool = false;
@@ -995,6 +1000,27 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		// healthBar
 		add(healthBar);
+
+		if (curSong == 'Rush')
+		{
+			// enemy health bar
+			enemyBarBG = new FlxSprite(healthBarBG.x, healthBarBG.y + 10).loadGraphic(Paths.image('healthBar'));
+			enemyBarBG.screenCenter(X);
+			enemyBarBG.scrollFactor.set();
+			add(enemyBarBG);
+
+			enemyBar = new FlxBar(enemyBarBG.x + 4, enemyBarBG.y + 4, LEFT_TO_RIGHT, Std.int(enemyBarBG.width - 8), Std.int(enemyBarBG.height - 8), this,
+				'enemyHealth', 0, 1);
+			enemyBar.scrollFactor.set();
+			enemyBar.createColoredFilledBar(FlxColor.LIME, FlxColor.GRAY);
+			add(enemyBar);
+
+			// the text thing
+			var enemyBarText = new FlxText(enemyBarBG.x, enemyBarBG.y + 20, 0, "Enemy Health", 16);
+			enemyBarText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			enemyBarText.scrollFactor.set();
+			add(enemyBarText);
+		}
 
 		// Add Kade Engine watermark
 		kadeEngineWatermark = new FlxText(4, healthBarBG.y
@@ -2669,6 +2695,12 @@ class PlayState extends MusicBeatState
 					if (storyDifficulty == 2)
 						difficulty = '-hard';
 
+					if (curSong == 'Gear' && accuracy < 80)
+					{
+						trace("wworked"); ///////// PUT AN FEFFEIN CUTSCENE HERE IDK PGT SCARES BOYFREND AWAY
+						FlxG.switchState(new StoryMenuState());
+					}
+
 					trace('LOADING NEXT SONG');
 					trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
 
@@ -2763,7 +2795,9 @@ class PlayState extends MusicBeatState
 					totalNotesHit += 0.75;
 			case 'sick':
 				if (health < 2)
+				{
 					health += 0.1;
+				}
 				if (FlxG.save.data.accuracyMod == 0)
 					totalNotesHit += 1;
 				sicks++;
@@ -3232,24 +3266,24 @@ class PlayState extends MusicBeatState
 	}
 
 	/*function badNoteCheck()
-			{
-				// just double pasting this shit cuz fuk u
-				// REDO THIS SYSTEM!
-				var upP = controls.UP_P;
-				var rightP = controls.RIGHT_P;
-				var downP = controls.DOWN_P;
-				var leftP = controls.LEFT_P;
+		{
+			// just double pasting this shit cuz fuk u
+			// REDO THIS SYSTEM!
+			var upP = controls.UP_P;
+			var rightP = controls.RIGHT_P;
+			var downP = controls.DOWN_P;
+			var leftP = controls.LEFT_P;
 
-				if (leftP)
-					noteMiss(0);
-				if (upP)
-					noteMiss(2);
-				if (rightP)
-					noteMiss(3);
-				if (downP)
-					noteMiss(1);
-				updateAccuracy();
-			}
+			if (leftP)
+				noteMiss(0);
+			if (upP)
+				noteMiss(2);
+			if (rightP)
+				noteMiss(3);
+			if (downP)
+				noteMiss(1);
+			updateAccuracy();
+		}
 	 */
 	function updateAccuracy()
 	{
@@ -3625,6 +3659,11 @@ class PlayState extends MusicBeatState
 		{
 			boyfriend.playAnim('hey', true);
 			dad.playAnim('cheer', true);
+		}
+
+		if (curSong == 'Rush' && (curStep == 920 || curStep == 2127))
+		{
+			boyfriend.playAnim('ugh', true);
 		}
 
 		switch (curStage)
